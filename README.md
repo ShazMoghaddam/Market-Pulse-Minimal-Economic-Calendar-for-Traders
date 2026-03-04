@@ -2,7 +2,9 @@
 
 **A distraction-free economic calendar built for focused traders.**
 
-![Market Pulse Screenshot](./Market Plus Image 1.png, Market Plus Image 2.png)
+![Market Pulse Screenshot]
+Market Plus Image 1.png
+Market Plus Image 2.png
 
 ---
 
