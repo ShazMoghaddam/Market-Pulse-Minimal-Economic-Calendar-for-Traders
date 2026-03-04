@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Pulse – Live Economic Calendar</title>
+  <meta name="description" content="Market Pulse is a live economic calendar tracking high-impact events across global markets — Fed decisions, CPI releases, GDP data, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Market Pulse – Live Economic Calendar" />
+  <meta property="og:description" content="Track high-impact economic events across global markets in real time. Fed decisions, CPI, GDP, employment data, and more." />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:url" content="https://yoursite.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Market Pulse – Live Economic Calendar" />
+  <meta name="twitter:description" content="Track high-impact economic events across global markets in real time." />
+  <meta name="twitter:image" content="/og-image.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script>(function(){try{var t=localStorage.getItem('marketpulse_theme');if(!t)t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}}());</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      --transition-fast: 0.15s ease;
+      --impact-high:   #FF5C5C;
+      --impact-medium: #F5A623;
+      --impact-low:    #4A90E2;
+      --status-live:     #FF5C5C;
+      --status-upcoming: #4A90E2;
+      --status-released: #6B7280;
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --radius: 12px;
+      --shadow-card:       0 2px 12px rgba(0,0,0,0.22);
+      --shadow-card-hover: 0 6px 24px rgba(0,0,0,0.32);
+      --shadow-panel:      0 4px 24px rgba(0,0,0,0.18);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary:    #0F1115;
+      --bg-secondary:  #13161C;
+      --bg-card:       #171A21;
+      --bg-card-hover: #1C2029;
+      --bg-input:      #13161C;
+      --border:        rgba(35,39,52,0.85);
+      --border-strong: rgba(46,51,71,0.9);
+      --text-primary:  #E6E9EF;
+      --text-secondary:#9AA4B2;
+      --text-muted:    #6B7280;
+      --text-accent:   #4A90E2;
+      --accent-primary: #4A90E2;
+      --accent-glow:    rgba(74,144,226,0.12);
+      --scrollbar-track: #13161C;
+      --scrollbar-thumb: #232734;
+      --header-bg:      rgba(15,17,21,0.95);
+      --badge-offline:  rgba(255,92,92,0.12);
+      --badge-online:   rgba(74,200,120,0.12);
+      --online-color:   #4AC878;
+      --shadow-panel:   0 4px 24px rgba(0,0,0,0.22);
+    }
+
+    [data-theme="light"] {
+      --bg-primary:    #EEF0F3;
+      --bg-secondary:  #F8F7F5;
+      --bg-card:       #FFFFFF;
+      --bg-card-hover: #FAFAFA;
+      --bg-input:      #F0EFF0;
+      --border:        #DFD9D4;
+      --border-strong: #BDB8B3;
+      --text-primary:  #111318;
+      --text-secondary:#3D4452;
+      --text-muted:    #7A8494;
+      --text-accent:   #1D4ED8;
+      --accent-primary: #1D4ED8;
+      --accent-glow:    rgba(29,78,216,0.08);
+      --shadow-card:       0 1px 3px rgba(60,40,20,0.06), 0 4px 16px rgba(60,40,20,0.08);
+      --shadow-card-hover: 0 2px 6px rgba(60,40,20,0.07), 0 8px 28px rgba(60,40,20,0.13);
+      --shadow-panel:      0 2px 8px rgba(60,40,20,0.07), 0 8px 32px rgba(60,40,20,0.11);
+      --scrollbar-track: #EEF0F3;
+      --scrollbar-thumb: #C8C4BF;
+      --header-bg:      rgba(238,240,243,0.96);
+      --badge-offline:  rgba(255,92,92,0.09);
+      --badge-online:   rgba(74,200,120,0.10);
+      --online-color:   #15803D;
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    html.theme-transitioning *,
+    html.theme-transitioning *::before,
+    html.theme-transitioning *::after {
+      transition: background-color 360ms ease, background 360ms ease, border-color 360ms ease, color 360ms ease, box-shadow 360ms ease, opacity 200ms ease !important;
+    }
+
+    body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; font-size: 14px; line-height: 1.5; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+    .header { position: sticky; top: 0; z-index: 100; background: var(--header-bg); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0 var(--space-3); }
+    .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; gap: var(--space-2); }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .logo-icon { width: 30px; height: 30px; background: var(--accent-primary); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; }
+    .logo-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .logo-text { font-size: 15px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
+    .logo-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; letter-spacing: 0.15px; opacity: 0.8; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    .sync-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid transparent; font-family: var(--font-mono); transition: all var(--transition-fast); letter-spacing: 0.2px; }
+    .sync-badge.online  { background: var(--badge-online);  color: var(--online-color); border-color: rgba(74,200,120,0.2); }
+    .sync-badge.offline { background: var(--badge-offline); color: var(--impact-high);  border-color: rgba(255,92,92,0.2); }
+    .sync-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .sync-badge.online .sync-dot { animation: pulse-dot 2.5s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    .live-clock { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); font-weight: 400; display: flex; align-items: center; gap: 6px; }
+    .clock-tz { font-size: 10px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px; }
+
+    .theme-toggle { width: 34px; height: 34px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); }
+    .theme-toggle svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .theme-toggle:hover { border-color: var(--border-strong); color: var(--text-primary); background: var(--bg-card-hover); }
+
+    .controls-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 10px var(--space-3); }
+    .controls-inner { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .controls-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); flex-shrink: 0; }
+    .region-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    .chip { padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 180ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 150ms ease; white-space: nowrap; font-family: var(--font-sans); user-select: none; }
+    .chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
+    .chip:active { transform: scale(0.97); }
+    .chip.active { background: var(--accent-glow); border-color: var(--accent-primary); color: var(--accent-primary); transform: scale(1.01); box-shadow: 0 2px 8px rgba(74,144,226,0.18), 0 0 0 1px rgba(74,144,226,0.12); font-weight: 600; }
+    .chip.active:active { transform: scale(0.97); box-shadow: none; }
+
+    .controls-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+
+    .impact-toggle { display: flex; gap: 2px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 3px; }
+    .impact-btn { padding: 4px 10px; border-radius: 4px; border: none; background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; transition: color 150ms ease, background 150ms ease, transform 180ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 150ms ease; white-space: nowrap; font-family: var(--font-sans); letter-spacing: 0.2px; user-select: none; }
+    .impact-btn:hover { color: var(--text-secondary); }
+    .impact-btn:active { transform: scale(0.97); }
+    .impact-btn.active { background: var(--accent-primary); color: #fff; font-weight: 600; box-shadow: 0 2px 6px rgba(74,144,226,0.3); }
+    .impact-btn.active:active { transform: scale(0.97); box-shadow: none; }
+
+    .event-count { margin-left: auto; font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+    .event-count span { color: var(--text-accent); font-weight: 600; }
+
+    .next-event-panel { background: var(--bg-card); border: 1px solid rgba(255,92,92,0.10); border-radius: var(--radius); padding: var(--space-4) calc(var(--space-4) + 8px); margin-bottom: var(--space-4); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); position: relative; overflow: hidden; box-shadow: 0 1px 0 0 rgba(255,92,92,0.04) inset, var(--shadow-panel); background-image: radial-gradient(ellipse at 0% 50%, rgba(255,92,92,0.035) 0%, transparent 60%); }
+    .next-event-panel::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--impact-high); border-radius: 0 2px 2px 0; }
+    .next-event-panel::after { content: ''; position: absolute; right: 0; top: 50%; width: 280px; height: 280px; transform: translate(30%,-50%); background: radial-gradient(ellipse at center, rgba(255,92,92,0.06) 0%, transparent 70%); pointer-events: none; }
+    .next-event-panel-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.4px; color: var(--text-muted); margin-bottom: 10px; opacity: 0.7; }
+    .next-event-name { font-size: 20px; font-weight: 650; color: var(--text-primary); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.3px; }
+    .next-event-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .next-event-country { font-size: 12px; color: var(--text-secondary); opacity: 0.85; }
+    .next-event-currency { font-size: 11px; font-weight: 600; font-family: var(--font-mono); padding: 1px 6px; border-radius: 4px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-muted); opacity: 0.9; }
+    .next-event-right { text-align: right; flex-shrink: 0; min-width: 180px; position: relative; z-index: 1; }
+    .next-event-countdown { font-family: var(--font-mono); font-size: 40px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1; margin-bottom: 10px; font-variant-numeric: tabular-nums; min-width: 7ch; display: inline-block; }
+    .next-event-countdown.hero-live { display: inline-flex; align-items: center; gap: 8px; color: var(--status-live); }
+    .hero-live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--status-live); flex-shrink: 0; animation: hero-dot-pulse 1.5s ease-in-out infinite; }
+    @keyframes hero-dot-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,92,92,0.5); opacity: 1; } 50% { box-shadow: 0 0 0 4px rgba(255,92,92,0); opacity: 0.8; } }
+    .next-event-datetime { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); opacity: 0.75; }
+
+    .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); background: var(--bg-card); font-family: var(--font-mono); letter-spacing: 0.2px; opacity: 0.7; transition: opacity var(--transition-fast); }
+    .trust-badge:hover { opacity: 1; }
+    .trust-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--online-color); flex-shrink: 0; }
+
+    .main { max-width: 1400px; margin: 0 auto; padding: var(--space-3); }
+
+    .date-section-header { display: flex; align-items: center; gap: 12px; margin: var(--space-3) 0 var(--space-2); }
+    .date-section-header:first-child { margin-top: 0; }
+    .date-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); white-space: nowrap; }
+    .date-label.today { color: var(--accent-primary); }
+    .date-divider { flex: 1; height: 1px; background: var(--border); }
+
+    .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 10px; padding-left: 20px; border-left: 1px solid var(--border); margin-left: 4px; }
+
+    .event-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px var(--space-2); transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast); position: relative; overflow: hidden; cursor: default; box-shadow: var(--shadow-card); }
+    .event-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 0 2px 2px 0; }
+    .event-card[data-impact="High"]::before   { background: var(--impact-high); }
+    .event-card[data-impact="Medium"]::before { background: var(--impact-medium); }
+    .event-card[data-impact="Low"]::before    { background: var(--impact-low); }
+    .event-card:hover { border-color: var(--border-strong); background: var(--bg-card-hover); transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
+    .event-card.is-released { opacity: 0.65; transition: opacity var(--transition-fast); }
+    .event-card.is-released:hover { opacity: 0.85; }
+    .event-card.is-live { border-color: rgba(255,92,92,0.3); animation: live-pulse 2.5s ease-in-out infinite; }
+    @keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,92,92,0); } 50% { box-shadow: 0 0 0 5px rgba(255,92,92,0.07); } }
+
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+    .card-title-group { flex: 1; min-width: 0; }
+    .card-event-name { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.2px; }
+    .card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .flag { font-size: 13px; line-height: 1; }
+    .country-name { font-size: 11px; color: var(--text-secondary); }
+    .currency-tag { font-size: 10px; font-weight: 600; font-family: var(--font-mono); padding: 1px 5px; border-radius: 4px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-muted); }
+
+    .impact-badge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .impact-badge.High   { background: rgba(255,92,92,0.1);  color: var(--impact-high);   border: 1px solid rgba(255,92,92,0.2); }
+    .impact-badge.Medium { background: rgba(245,166,35,0.1); color: var(--impact-medium); border: 1px solid rgba(245,166,35,0.2); }
+    .impact-badge.Low    { background: rgba(74,144,226,0.1); color: var(--impact-low);    border: 1px solid rgba(74,144,226,0.2); }
+
+    .card-status-col { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .status-pill { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .status-pill.Upcoming { background: rgba(74,144,226,0.1);  color: var(--status-upcoming); border: 1px solid rgba(74,144,226,0.2); }
+    .status-pill.Live     { background: rgba(255,92,92,0.12); color: var(--status-live);     border: 1px solid rgba(255,92,92,0.25); }
+    .status-pill.Released { background: rgba(107,114,128,0.1);color: var(--status-released); border: 1px solid rgba(107,114,128,0.2); }
+
+    .countdown-timer { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text-accent); font-variant-numeric: tabular-nums; min-width: 7ch; display: inline-block; }
+    .countdown-timer.is-live { color: var(--status-live); display: inline-flex; align-items: center; gap: 5px; min-width: auto; }
+    .countdown-timer.is-live::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--status-live); flex-shrink: 0; animation: live-dot-pulse 1.5s ease-in-out infinite; box-shadow: 0 0 0 0 rgba(255,92,92,0.4); }
+    @keyframes live-dot-pulse { 0% { box-shadow: 0 0 0 0 rgba(255,92,92,0.4); } 60% { box-shadow: 0 0 0 5px rgba(255,92,92,0); } 100% { box-shadow: 0 0 0 0 rgba(255,92,92,0); } }
+    .countdown-timer.released { color: var(--text-muted); opacity: 0.5; font-size: 11px; }
+
+    .released-tag { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); opacity: 0.6; padding: 1px 5px; border-radius: 3px; background: rgba(107,114,128,0.08); border: 1px solid rgba(107,114,128,0.15); }
+
+    .card-datetime { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 4px; opacity: 0.8; }
+
+    .card-values { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-1); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .value-cell { display: flex; flex-direction: column; gap: 4px; }
+    .value-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-muted); opacity: 0.75; }
+    .value-data  { font-size: 13px; font-weight: 600; font-family: var(--font-mono); color: var(--text-secondary); opacity: 0.75; font-variant-numeric: tabular-nums; }
+    .value-data.actual  { color: var(--text-primary); opacity: 1; }
+    .value-data.better  { color: #4AC878; opacity: 1; }
+    .value-data.worse   { color: var(--impact-high); opacity: 1; }
+    .value-data.pending { color: var(--text-muted); font-style: italic; font-size: 11px; opacity: 0.5; }
+
+    #mainContent { transition: opacity 180ms ease, transform 180ms ease; will-change: opacity, transform; }
+    #mainContent.is-filtering { opacity: 0; transform: translateY(4px); pointer-events: none; }
+
+    .empty-state { text-align: center; padding: 96px 24px 80px; color: var(--text-muted); }
+    .empty-state-icon { margin-bottom: 20px; display: flex; justify-content: center; }
+    .empty-state-icon svg { width: 48px; height: 48px; stroke: var(--border-strong); fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; opacity: 0.6; }
+    .empty-state h3 { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; letter-spacing: -0.1px; }
+    .empty-state p { font-size: 13px; line-height: 1.6; max-width: 280px; margin: 0 auto; }
+    .empty-state-reset { margin-top: 24px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 500; font-family: var(--font-sans); cursor: pointer; transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 180ms cubic-bezier(0.34,1.56,0.64,1); user-select: none; }
+    .empty-state-reset svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .empty-state-reset:hover { border-color: var(--border-strong); color: var(--text-primary); background: var(--bg-card); }
+    .empty-state-reset:active { transform: scale(0.97); }
+
+    .footer { border-top: 1px solid var(--border); padding: 14px var(--space-3); margin-top: var(--space-4); }
+    .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+    .footer-copy { font-size: 11px; color: var(--text-muted); opacity: 0.7; }
+    .footer-meta { font-size: 11px; color: var(--text-muted); opacity: 0.55; text-align: right; }
+    .footer-version { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); opacity: 0.4; margin-left: 8px; }
+
+    .loading-overlay { position: fixed; inset: 0; background: var(--bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; z-index: 9999; transition: opacity 0.4s ease; }
+    .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 0.75s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .controls-inner { gap: 8px; }
+      .region-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+      .region-chips::-webkit-scrollbar { height: 0; }
+      .next-event-panel { padding: var(--space-3) var(--space-3); }
+      .next-event-countdown { font-size: 32px; }
+      .next-event-name { font-size: 17px; }
+      .events-grid { padding-left: 16px; }
+    }
+    @media (max-width: 768px) {
+      .header-inner { height: 52px; }
+      .logo-sub, .clock-tz { display: none; }
+      .controls-inner { flex-direction: column; align-items: flex-start; }
+      .controls-divider { display: none; }
+      .events-grid { grid-template-columns: 1fr; padding-left: 0; border-left: none; margin-left: 0; }
+      .main { padding: var(--space-2); }
+      .sync-label-text { display: none; }
+      .next-event-panel { flex-direction: column; align-items: flex-start; padding: var(--space-2); }
+      .next-event-right { text-align: left; min-width: 0; }
+      .trust-badge { display: none; }
+    }
+    @media (max-width: 480px) {
+      .card-values { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p class="loading-text">Loading Market Pulse…</p>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="#">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <span class="logo-text">Market Pulse</span>
+          <span class="logo-sub">Economic Calendar for Traders</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <div class="trust-badge" id="trustBadge" title="Data source status">
+          <span class="trust-badge-dot" id="trustDot"></span>
+          <span id="trustLabel">Cached</span>
+        </div>
+        <div class="sync-badge online" id="syncBadge">
+          <span class="sync-dot"></span>
+          <span class="sync-label-text" id="syncLabel">Live</span>
+        </div>
+        <div class="live-clock">
+          <span id="liveClock">--:--:--</span>
+          <span class="clock-tz" id="clockTz">UTC</span>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          <svg id="themeIconDark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="themeIconLight" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls-bar">
+    <div class="controls-inner">
+      <span class="controls-label">Region</span>
+      <div class="region-chips" id="regionChips">
+        <button class="chip" data-region="US">US</button>
+        <button class="chip" data-region="UK">UK</button>
+        <button class="chip" data-region="Eurozone">Eurozone</button>
+        <button class="chip" data-region="Japan">Japan</button>
+        <button class="chip" data-region="Asia">Asia</button>
+        <button class="chip active" data-region="Global High Impact">Global High Impact</button>
+        <button class="chip" data-region="All">All</button>
+      </div>
+      <div class="controls-divider"></div>
+      <span class="controls-label">Impact</span>
+      <div class="impact-toggle" id="impactToggle">
+        <button class="impact-btn" data-impact="High">High Only</button>
+        <button class="impact-btn active" data-impact="High+Medium">High + Medium</button>
+        <button class="impact-btn" data-impact="All">All</button>
+      </div>
+      <div class="event-count" id="eventCount"><span>0</span> events</div>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="next-event-panel" id="nextEventPanel" style="display:none">
+      <div class="next-event-left">
+        <div class="next-event-panel-label">Next High Impact Event</div>
+        <div class="next-event-name" id="nextEventName">—</div>
+        <div class="next-event-meta">
+          <span class="next-event-country" id="nextEventCountry"></span>
+          <span class="next-event-currency" id="nextEventCurrency"></span>
+          <span class="impact-badge High">High</span>
+        </div>
+      </div>
+      <div class="next-event-right">
+        <div class="next-event-countdown" id="nextEventCountdown">--:--:--</div>
+        <div class="next-event-datetime" id="nextEventDatetime"></div>
+      </div>
+    </div>
+    <div id="mainContent"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Market Pulse<span class="footer-version">v1.0</span></p>
+      <p class="footer-meta">Data provided by TradingEconomics. Not financial advice.</p>
+    </div>
+  </footer>
+
+  <script id="fallbackData" type="application/json">
+  {"events":[
+    {"id":"evt_001","name":"Fed Interest Rate Decision","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-19T18:00:00Z","previous":"5.50%","forecast":"5.50%","actual":null,"status":"Upcoming"},
+    {"id":"evt_002","name":"US CPI (MoM)","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-12T12:30:00Z","previous":"0.3%","forecast":"0.4%","actual":"0.4%","status":"Released"},
+    {"id":"evt_003","name":"US Non-Farm Payrolls","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-04T12:30:00Z","previous":"275K","forecast":"200K","actual":null,"status":"Upcoming"},
+    {"id":"evt_004","name":"US GDP (QoQ)","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-27T12:30:00Z","previous":"3.3%","forecast":"3.2%","actual":null,"status":"Upcoming"},
+    {"id":"evt_005","name":"US Unemployment Rate","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-04T12:30:00Z","previous":"3.7%","forecast":"3.7%","actual":null,"status":"Upcoming"},
+    {"id":"evt_006","name":"US PPI (MoM)","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-13T12:30:00Z","previous":"0.3%","forecast":"0.3%","actual":"0.6%","status":"Released"},
+    {"id":"evt_007","name":"US Retail Sales (MoM)","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-17T12:30:00Z","previous":"-0.8%","forecast":"0.6%","actual":null,"status":"Upcoming"},
+    {"id":"evt_008","name":"US Initial Jobless Claims","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-20T12:30:00Z","previous":"217K","forecast":"215K","actual":null,"status":"Upcoming"},
+    {"id":"evt_009","name":"FOMC Meeting Minutes","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-09T18:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
+    {"id":"evt_010","name":"Fed Chair Powell Speech","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-29T17:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
+    {"id":"evt_011","name":"BOE Interest Rate Decision","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-03-20T12:00:00Z","previous":"5.25%","forecast":"5.25%","actual":null,"status":"Upcoming"},
+    {"id":"evt_012","name":"UK CPI (YoY)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-03-19T07:00:00Z","previous":"4.0%","forecast":"3.6%","actual":null,"status":"Upcoming"},
+    {"id":"evt_013","name":"UK GDP (MoM)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-04-11T06:00:00Z","previous":"0.1%","forecast":"0.1%","actual":null,"status":"Upcoming"},
+    {"id":"evt_014","name":"UK Unemployment Rate","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-03-19T07:00:00Z","previous":"3.8%","forecast":"3.8%","actual":null,"status":"Upcoming"},
+    {"id":"evt_015","name":"UK Retail Sales (MoM)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-03-22T07:00:00Z","previous":"-3.2%","forecast":"1.5%","actual":null,"status":"Upcoming"},
+    {"id":"evt_016","name":"ECB Interest Rate Decision","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-04-17T12:15:00Z","previous":"4.50%","forecast":"4.25%","actual":null,"status":"Upcoming"},
+    {"id":"evt_017","name":"Eurozone CPI Flash (YoY)","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-03-28T10:00:00Z","previous":"2.6%","forecast":"2.5%","actual":null,"status":"Upcoming"},
+    {"id":"evt_018","name":"Eurozone GDP (QoQ)","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-04-30T09:00:00Z","previous":"0.0%","forecast":"0.1%","actual":null,"status":"Upcoming"},
+    {"id":"evt_019","name":"German IFO Business Climate","country":"Germany","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-25T09:00:00Z","previous":"85.5","forecast":"86.0","actual":null,"status":"Upcoming"},
+    {"id":"evt_020","name":"German CPI (MoM)","country":"Germany","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-27T13:00:00Z","previous":"0.2%","forecast":"0.4%","actual":null,"status":"Upcoming"},
+    {"id":"evt_021","name":"ECB President Lagarde Speech","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-03-22T14:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
+    {"id":"evt_022","name":"BOJ Interest Rate Decision","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-19T03:00:00Z","previous":"-0.10%","forecast":"0.10%","actual":null,"status":"Upcoming"},
+    {"id":"evt_023","name":"Japan CPI (YoY)","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-22T00:30:00Z","previous":"2.2%","forecast":"2.8%","actual":null,"status":"Upcoming"},
+    {"id":"evt_024","name":"Japan GDP (QoQ)","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-11T23:50:00Z","previous":"0.4%","forecast":"0.3%","actual":"0.1%","status":"Released"},
+    {"id":"evt_025","name":"Japan Unemployment Rate","country":"Japan","currency":"JPY","region":"Japan","impact":"Medium","datetime_utc":"2025-03-29T00:30:00Z","previous":"2.4%","forecast":"2.4%","actual":null,"status":"Upcoming"},
+    {"id":"evt_026","name":"Japan Tankan Large Manufacturers","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-04-01T23:50:00Z","previous":"13","forecast":"12","actual":null,"status":"Upcoming"},
+    {"id":"evt_027","name":"China GDP (YoY)","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-04-16T02:00:00Z","previous":"5.2%","forecast":"4.8%","actual":null,"status":"Upcoming"},
+    {"id":"evt_028","name":"China CPI (YoY)","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-03-09T01:30:00Z","previous":"0.7%","forecast":"0.8%","actual":"0.7%","status":"Released"},
+    {"id":"evt_029","name":"China Trade Balance","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-03-07T03:00:00Z","previous":"75.3B","forecast":"103.8B","actual":"125.2B","status":"Released"},
+    {"id":"evt_030","name":"RBA Interest Rate Decision","country":"Australia","currency":"AUD","region":"Asia","impact":"High","datetime_utc":"2025-04-01T03:30:00Z","previous":"4.35%","forecast":"4.10%","actual":null,"status":"Upcoming"},
+    {"id":"evt_031","name":"Australia CPI (QoQ)","country":"Australia","currency":"AUD","region":"Asia","impact":"High","datetime_utc":"2025-04-30T01:30:00Z","previous":"0.6%","forecast":"0.8%","actual":null,"status":"Upcoming"},
+    {"id":"evt_032","name":"Australia Unemployment Rate","country":"Australia","currency":"AUD","region":"Asia","impact":"Medium","datetime_utc":"2025-03-21T00:30:00Z","previous":"4.1%","forecast":"4.0%","actual":null,"status":"Upcoming"},
+    {"id":"evt_033","name":"Canada Interest Rate Decision","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-16T13:45:00Z","previous":"5.00%","forecast":"4.75%","actual":null,"status":"Upcoming"},
+    {"id":"evt_034","name":"Canada CPI (YoY)","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-03-19T12:30:00Z","previous":"2.9%","forecast":"3.0%","actual":null,"status":"Upcoming"},
+    {"id":"evt_035","name":"Canada Employment Change","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-11T12:30:00Z","previous":"37.3K","forecast":"25.0K","actual":null,"status":"Upcoming"},
+    {"id":"evt_036","name":"SNB Interest Rate Decision","country":"Switzerland","currency":"CHF","region":"Eurozone","impact":"High","datetime_utc":"2025-03-21T08:30:00Z","previous":"1.75%","forecast":"1.50%","actual":null,"status":"Upcoming"},
+    {"id":"evt_037","name":"New Zealand GDP (QoQ)","country":"New Zealand","currency":"NZD","region":"Asia","impact":"High","datetime_utc":"2025-03-20T21:45:00Z","previous":"-0.3%","forecast":"0.1%","actual":null,"status":"Upcoming"},
+    {"id":"evt_038","name":"RBNZ Interest Rate Decision","country":"New Zealand","currency":"NZD","region":"Asia","impact":"High","datetime_utc":"2025-04-09T02:00:00Z","previous":"5.50%","forecast":"5.25%","actual":null,"status":"Upcoming"},
+    {"id":"evt_039","name":"India GDP (YoY)","country":"India","currency":"INR","region":"Asia","impact":"High","datetime_utc":"2025-02-28T12:00:00Z","previous":"7.6%","forecast":"6.9%","actual":"8.4%","status":"Released"},
+    {"id":"evt_040","name":"RBI Interest Rate Decision","country":"India","currency":"INR","region":"Asia","impact":"High","datetime_utc":"2025-04-05T05:00:00Z","previous":"6.50%","forecast":"6.25%","actual":null,"status":"Upcoming"},
+    {"id":"evt_041","name":"Eurozone Unemployment Rate","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-04-01T09:00:00Z","previous":"6.4%","forecast":"6.4%","actual":null,"status":"Upcoming"},
+    {"id":"evt_042","name":"US ISM Manufacturing PMI","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-04-01T14:00:00Z","previous":"47.8","forecast":"48.3","actual":null,"status":"Upcoming"},
+    {"id":"evt_043","name":"US ISM Services PMI","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-04-03T14:00:00Z","previous":"52.6","forecast":"53.0","actual":null,"status":"Upcoming"},
+    {"id":"evt_044","name":"UK Manufacturing PMI","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-04-01T08:30:00Z","previous":"47.5","forecast":"47.8","actual":null,"status":"Upcoming"},
+    {"id":"evt_045","name":"Eurozone Manufacturing PMI","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-04-01T08:00:00Z","previous":"46.5","forecast":"47.0","actual":null,"status":"Upcoming"},
+    {"id":"evt_046","name":"Japan Industrial Production (MoM)","country":"Japan","currency":"JPY","region":"Japan","impact":"Medium","datetime_utc":"2025-03-29T00:50:00Z","previous":"1.2%","forecast":"-0.1%","actual":null,"status":"Upcoming"},
+    {"id":"evt_047","name":"US CB Consumer Confidence","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-26T14:00:00Z","previous":"106.7","forecast":"106.5","actual":null,"status":"Upcoming"},
+    {"id":"evt_048","name":"Switzerland CPI (MoM)","country":"Switzerland","currency":"CHF","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-04T07:30:00Z","previous":"0.2%","forecast":"0.4%","actual":"0.6%","status":"Released"},
+    {"id":"evt_049","name":"South Korea GDP (QoQ)","country":"South Korea","currency":"KRW","region":"Asia","impact":"High","datetime_utc":"2025-04-24T01:00:00Z","previous":"0.6%","forecast":"0.5%","actual":null,"status":"Upcoming"},
+    {"id":"evt_050","name":"BOC Governor Macklem Speech","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-08T15:30:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"}
+  ]}
+  </script>
+
+  <script>
+  'use strict';
+
+  const CONFIG = {
+    API_KEY:             'YOUR_API_KEY_HERE',
+    API_BASE:            'https://api.tradingeconomics.com/calendar',
+    CACHE_KEY_EVENTS:    'marketpulse_events',
+    CACHE_KEY_SYNCED:    'marketpulse_synced',
+    CACHE_TTL_MS:        30 * 60 * 1000,
+    LIVE_WINDOW_MS:      5  * 60 * 1000,
+    RELEASED_AFTER_MS:   2  * 60 * 60 * 1000,
+    DEFAULT_REGION:      'Global High Impact',
+    DEFAULT_IMPACT:      'High+Medium',
+    REFRESH_INTERVAL_MS: 60 * 1000,
+  };
+
+  const AppState = {
+    events: [], filtered: [],
+    lastSynced: null, isOffline: false, theme: 'dark',
+    filters: { region: CONFIG.DEFAULT_REGION, impact: CONFIG.DEFAULT_IMPACT },
+  };
+
+  function setState(patch, rerender = true) {
+    Object.assign(AppState, patch);
+    if (rerender) render();
+  }
+
+  const DataModule = (() => {
+    function loadFallback() {
+      try { return JSON.parse(document.getElementById('fallbackData').textContent).events; }
+      catch(e) { return []; }
+    }
+
+    function saveToCache(events) {
+      try {
+        localStorage.setItem(CONFIG.CACHE_KEY_EVENTS, JSON.stringify(events));
+        localStorage.setItem(CONFIG.CACHE_KEY_SYNCED, Date.now().toString());
+      } catch(e) {}
+    }
+
+    function loadFromCache() {
+      try {
+        const raw    = localStorage.getItem(CONFIG.CACHE_KEY_EVENTS);
+        const synced = localStorage.getItem(CONFIG.CACHE_KEY_SYNCED);
+        if (!raw || !synced) return null;
+        if (Date.now() - parseInt(synced, 10) > CONFIG.CACHE_TTL_MS) return null;
+        return JSON.parse(raw);
+      } catch(e) { return null; }
+    }
+
+    function normaliseImpact(val) {
+      if (val === 3 || val === '3') return 'High';
+      if (val === 2 || val === '2') return 'Medium';
+      return 'Low';
+    }
+
+    function resolveRegion(country, currency) {
+      const c   = (country  || '').toLowerCase();
+      const cur = (currency || '').toUpperCase();
+      if (['united states','canada','mexico'].includes(c) || ['USD','CAD','MXN'].includes(cur)) return 'US';
+      if (c === 'united kingdom' || cur === 'GBP') return 'UK';
+      if (['eurozone','germany','france','italy','spain','netherlands','belgium','austria','portugal','ireland'].includes(c) || cur === 'EUR') return 'Eurozone';
+      if (c === 'japan' || cur === 'JPY') return 'Japan';
+      if (['china','australia','new zealand','india','south korea','singapore','hong kong','indonesia','taiwan'].includes(c)) return 'Asia';
+      return 'Other';
+    }
+
+    function computeStatus(datetimeUtc, actual) {
+      const now   = Date.now();
+      const evtMs = new Date(datetimeUtc).getTime();
+      if (actual !== null && actual !== undefined && actual !== '') return 'Released';
+      if (now > evtMs + CONFIG.RELEASED_AFTER_MS) return 'Released';
+      if (now >= evtMs - CONFIG.LIVE_WINDOW_MS)   return 'Live';
+      return 'Upcoming';
+    }
+
+    async function fetchLive() {
+      if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE') throw new Error('No API key');
+      const url = `${CONFIG.API_BASE}?c=${CONFIG.API_KEY}&f=json`;
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const raw = await res.json();
+      return raw.map((item, i) => ({
+        id:           `te_${item.CalendarId || i}`,
+        name:         item.Event    || 'Unknown Event',
+        country:      item.Country  || '—',
+        currency:     item.Currency || '—',
+        region:       resolveRegion(item.Country, item.Currency),
+        impact:       normaliseImpact(item.Importance),
+        datetime_utc: item.Date,
+        previous:     item.Previous != null ? String(item.Previous) : '—',
+        forecast:     item.Forecast != null ? String(item.Forecast) : '—',
+        actual:       (item.Actual  != null && item.Actual !== '') ? String(item.Actual) : null,
+        status:       computeStatus(item.Date, item.Actual),
+      }));
+    }
+
+    async function bootstrap() {
+      try {
+        const events = await fetchLive();
+        saveToCache(events);
+        return { events, isOffline: false, lastSynced: new Date() };
+      } catch(e) {}
+
+      const cached = loadFromCache();
+      if (cached) {
+        const synced = new Date(parseInt(localStorage.getItem(CONFIG.CACHE_KEY_SYNCED), 10));
+        return { events: cached, isOffline: true, lastSynced: synced };
+      }
+
+      return { events: loadFallback(), isOffline: true, lastSynced: null };
+    }
+
+    return { bootstrap, fetchLive, saveToCache, computeStatus };
+  })();
+
+  const FiltersModule = (() => {
+    const REGION_MAP = {
+      'US':                 e => e.region === 'US',
+      'UK':                 e => e.region === 'UK',
+      'Eurozone':           e => e.region === 'Eurozone',
+      'Japan':              e => e.region === 'Japan',
+      'Asia':               e => e.region === 'Asia',
+      'Global High Impact': e => e.impact === 'High',
+      'All':                () => true,
+    };
+    const IMPACT_MAP = {
+      'High':        e => e.impact === 'High',
+      'High+Medium': e => e.impact === 'High' || e.impact === 'Medium',
+      'All':         () => true,
+    };
+    function apply(events, { region, impact }) {
+      return events.filter(e =>
+        (REGION_MAP[region]  || (() => true))(e) &&
+        (IMPACT_MAP[impact]  || (() => true))(e)
+      );
+    }
+    return { apply };
+  })();
+
+  const CountdownModule = (() => {
+    let _interval = null;
+
+    function format(ms) {
+      if (ms <= 0) return null;
+      const s = Math.floor(ms / 1000);
+      const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600),
+            m = Math.floor((s % 3600) / 60), sec = s % 60;
+      if (d > 0) return `${d}d ${h}h ${m}m`;
+      if (h > 0) return `${h}h ${m}m ${sec}s`;
+      return `${m}m ${sec}s`;
+    }
+
+    function tick() {
+      const now = Date.now();
+      document.querySelectorAll('.event-card').forEach(card => {
+        const evt = AppState.events.find(e => e.id === card.dataset.eventId);
+        if (!evt) return;
+        const evtMs  = new Date(evt.datetime_utc).getTime();
+        const diff   = evtMs - now;
+        const status = DataModule.computeStatus(evt.datetime_utc, evt.actual);
+        const timer  = card.querySelector('.countdown-timer');
+        const pill   = card.querySelector('.status-pill');
+        if (!timer || !pill) return;
+
+        pill.className   = `status-pill ${status}`;
+        pill.textContent = status;
+
+        if (status === 'Live') {
+          card.classList.add('is-live');
+          card.classList.remove('is-released');
+          timer.className   = 'countdown-timer is-live';
+          timer.textContent = 'LIVE';
+        } else if (status === 'Released') {
+          card.classList.remove('is-live');
+          card.classList.add('is-released');
+          timer.className   = 'countdown-timer released';
+          timer.textContent = 'Released';
+        } else {
+          card.classList.remove('is-live', 'is-released');
+          timer.className   = 'countdown-timer';
+          timer.textContent = format(diff) || 'Soon';
+        }
+      });
+
+      const nextCountdownEl = document.getElementById('nextEventCountdown');
+      if (nextCountdownEl) {
+        const upcoming = AppState.events
+          .filter(e => e.impact === 'High' && e.status !== 'Released' && new Date(e.datetime_utc).getTime() > now)
+          .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
+        if (upcoming.length) {
+          const nextEvt    = upcoming[0];
+          const heroStatus = DataModule.computeStatus(nextEvt.datetime_utc, nextEvt.actual);
+          const diff       = new Date(nextEvt.datetime_utc).getTime() - now;
+          if (heroStatus === 'Live') {
+            nextCountdownEl.className = 'next-event-countdown hero-live';
+            nextCountdownEl.innerHTML = '<span class="hero-live-dot"></span>LIVE';
+          } else {
+            nextCountdownEl.className   = 'next-event-countdown';
+            nextCountdownEl.textContent = format(diff) || 'Soon';
+          }
+        }
+      }
+
+      updateClock();
+    }
+
+    function start() {
+      if (_interval) clearInterval(_interval);
+      tick();
+      _interval = setInterval(tick, 1000);
+    }
+
+    return { start, format };
+  })();
+
+  const FLAGS = {
+    'United States':'🇺🇸','United Kingdom':'🇬🇧','Eurozone':'🇪🇺',
+    'Germany':'🇩🇪','France':'🇫🇷','Italy':'🇮🇹','Spain':'🇪🇸','Netherlands':'🇳🇱',
+    'Japan':'🇯🇵','China':'🇨🇳','Australia':'🇦🇺','New Zealand':'🇳🇿',
+    'Canada':'🇨🇦','Switzerland':'🇨🇭','India':'🇮🇳','South Korea':'🇰🇷',
+    'Singapore':'🇸🇬','Hong Kong':'🇭🇰','Sweden':'🇸🇪','Norway':'🇳🇴',
+    'Mexico':'🇲🇽','Brazil':'🇧🇷','Indonesia':'🇮🇩','Taiwan':'🇹🇼',
+  };
+
+  const EventsModule = (() => {
+    function formatLocal(utcStr) {
+      const d = new Date(utcStr);
+      return {
+        date: d.toLocaleDateString([], { weekday:'short', month:'short', day:'numeric' }),
+        time: d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
+      };
+    }
+
+    function actualClass(actual, forecast, previous) {
+      const a = parseFloat(actual), f = parseFloat(forecast), p = parseFloat(previous);
+      if (isNaN(a)) return 'actual';
+      const base = isNaN(f) ? p : f;
+      if (isNaN(base)) return 'actual';
+      return a >= base ? 'better' : 'worse';
+    }
+
+    function buildCard(evt) {
+      const now    = Date.now();
+      const evtMs  = new Date(evt.datetime_utc).getTime();
+      const diff   = evtMs - now;
+      const status = DataModule.computeStatus(evt.datetime_utc, evt.actual);
+      const { date, time } = formatLocal(evt.datetime_utc);
+      const flag   = FLAGS[evt.country] || '🌐';
+
+      let timerClass = 'countdown-timer', timerText;
+      if (status === 'Live')          { timerClass += ' is-live'; timerText = 'LIVE'; }
+      else if (status === 'Released') { timerClass += ' released'; timerText = 'Released'; }
+      else                            { timerText = CountdownModule.format(diff) || 'Soon'; }
+
+      const actualHtml = evt.actual
+        ? `<span class="value-data actual ${actualClass(evt.actual, evt.forecast, evt.previous)}">${evt.actual}</span>`
+        : `<span class="value-data pending">Pending</span>`;
+
+      return `
+      <div class="event-card${status==='Live'?' is-live':''}${status==='Released'?' is-released':''}" data-impact="${evt.impact}" data-region="${evt.region}" data-event-id="${evt.id}">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-event-name" title="${evt.name}">${evt.name}</div>
+            <div class="card-meta">
+              <span class="flag">${flag}</span>
+              <span class="country-name">${evt.country}</span>
+              <span class="currency-tag">${evt.currency}</span>
+              <span class="impact-badge ${evt.impact}">${evt.impact}</span>
+            </div>
+            <div class="card-datetime">${date} · ${time}</div>
+          </div>
+          <div class="card-status-col">
+            <span class="status-pill ${status}">${status}</span>
+            ${status !== 'Released' ? `<span class="${timerClass}">${timerText}</span>` : ''}
+          </div>
+        </div>
+        <div class="card-values">
+          <div class="value-cell"><span class="value-label">Previous</span><span class="value-data">${evt.previous || '—'}</span></div>
+          <div class="value-cell"><span class="value-label">Forecast</span><span class="value-data">${evt.forecast || '—'}</span></div>
+          <div class="value-cell"><span class="value-label">Actual</span>${actualHtml}</div>
+        </div>
+      </div>`;
+    }
+
+    function groupByDate(events) {
+      const groups = {};
+      events.forEach(e => {
+        const key = new Date(e.datetime_utc).toLocaleDateString([], { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+        (groups[key] = groups[key] || []).push(e);
+      });
+      return groups;
+    }
+
+    function isToday(dateStr) {
+      return dateStr === new Date().toLocaleDateString([], { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    }
+
+    function renderAll(events) {
+      const container = document.getElementById('mainContent');
+      if (!events.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <h3>No events match your filters.</h3>
+            <p>Try adjusting the region or impact level to see more events.</p>
+            <button class="empty-state-reset" data-action="reset-filters">
+              <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+              Reset filters
+            </button>
+          </div>`;
+        return;
+      }
+      const sorted = [...events].sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
+      const groups = groupByDate(sorted);
+      container.innerHTML = Object.entries(groups).map(([label, evts]) => `
+        <div class="date-section-header">
+          <span class="date-label${isToday(label)?' today':''}">${isToday(label)?'Today – ':''}${label}</span>
+          <div class="date-divider"></div>
+        </div>
+        <div class="events-grid">${evts.map(buildCard).join('')}</div>
+      `).join('');
+    }
+
+    return { renderAll };
+  })();
+
+  const ThemeModule = (() => {
+    const KEY = 'marketpulse_theme';
+    function apply(theme) {
+      document.documentElement.classList.add('theme-transitioning');
+      document.documentElement.setAttribute('data-theme', theme);
+      const darkIcon  = document.getElementById('themeIconDark');
+      const lightIcon = document.getElementById('themeIconLight');
+      if (darkIcon && lightIcon) {
+        darkIcon.style.display  = theme === 'dark'  ? '' : 'none';
+        lightIcon.style.display = theme === 'light' ? '' : 'none';
+      }
+      AppState.theme = theme;
+      try { localStorage.setItem(KEY, theme); } catch(e) {}
+      clearTimeout(apply._timer);
+      apply._timer = setTimeout(() => {
+        document.documentElement.classList.remove('theme-transitioning');
+      }, 400);
+    }
+    function init() {
+      const saved = localStorage.getItem(KEY);
+      apply(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+      document.getElementById('themeToggle').addEventListener('click', () =>
+        apply(AppState.theme === 'dark' ? 'light' : 'dark')
+      );
+    }
+    return { init };
+  })();
+
+  function updateClock() {
+    const now = new Date();
+    const el  = document.getElementById('liveClock');
+    const tz  = document.getElementById('clockTz');
+    if (el) el.textContent = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    if (tz) tz.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
+
+  function updateSyncBadge() {
+    const badge      = document.getElementById('syncBadge');
+    const label      = document.getElementById('syncLabel');
+    const trustDot   = document.getElementById('trustDot');
+    const trustLabel = document.getElementById('trustLabel');
+    if (!badge || !label) return;
+    if (AppState.isOffline) {
+      badge.className = 'sync-badge offline';
+      const t = AppState.lastSynced
+        ? `Last synced: ${AppState.lastSynced.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`
+        : 'No cache';
+      label.textContent = `Offline – ${t}`;
+      if (trustDot)   trustDot.style.background = 'var(--impact-high)';
+      if (trustLabel) trustLabel.textContent = AppState.lastSynced ? 'Cached Mode' : 'Offline';
+    } else {
+      badge.className = 'sync-badge online';
+      const t = AppState.lastSynced
+        ? AppState.lastSynced.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
+        : '--:--';
+      label.textContent = `Live · ${t}`;
+      if (trustDot)   trustDot.style.background = 'var(--online-color)';
+      if (trustLabel) trustLabel.textContent = 'API Connected';
+    }
+  }
+
+  function render() {
+    const filtered = FiltersModule.apply(AppState.events, AppState.filters);
+    AppState.filtered = filtered;
+    EventsModule.renderAll(filtered);
+    const c = document.getElementById('eventCount');
+    if (c) c.innerHTML = `<span>${filtered.length}</span> events`;
+    updateSyncBadge();
+    updateNextEventPanel();
+  }
+
+  function updateNextEventPanel() {
+    const now = Date.now();
+    const upcoming = AppState.events
+      .filter(e => e.impact === 'High' && e.status !== 'Released' && new Date(e.datetime_utc).getTime() > now)
+      .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
+
+    const panel = document.getElementById('nextEventPanel');
+    if (!panel) return;
+    if (!upcoming.length) { panel.style.display = 'none'; return; }
+    panel.style.display = '';
+
+    const evt        = upcoming[0];
+    const nameEl     = document.getElementById('nextEventName');
+    const countryEl  = document.getElementById('nextEventCountry');
+    const currencyEl = document.getElementById('nextEventCurrency');
+    const datetimeEl = document.getElementById('nextEventDatetime');
+
+    if (nameEl)     nameEl.textContent     = evt.name;
+    if (countryEl)  countryEl.textContent  = evt.country;
+    if (currencyEl) currencyEl.textContent = evt.currency;
+    if (datetimeEl) {
+      const d = new Date(evt.datetime_utc);
+      datetimeEl.textContent = d.toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+  }
+
+  function filterAndRender(patch) {
+    const grid = document.getElementById('mainContent');
+    grid.classList.add('is-filtering');
+    setTimeout(() => {
+      Object.assign(AppState, patch);
+      render();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => grid.classList.remove('is-filtering'));
+      });
+    }, 180);
+  }
+
+  let _hasUserScrolled = false;
+
+  function initScrollGuard() {
+    function onScroll() {
+      _hasUserScrolled = true;
+      window.removeEventListener('scroll', onScroll, { passive: true });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function scrollToNextEvent() {
+    if (_hasUserScrolled) return;
+    const target = AppState.filtered.find(e =>
+      e.impact === 'High' &&
+      DataModule.computeStatus(e.datetime_utc, e.actual) === 'Upcoming'
+    );
+    if (!target) return;
+    const card = document.querySelector(`[data-event-id="${target.id}"]`);
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    if (rect.top <= window.innerHeight) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function initControls() {
+    document.getElementById('regionChips').addEventListener('click', e => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      filterAndRender({ filters: { ...AppState.filters, region: btn.dataset.region } });
+    });
+
+    document.getElementById('impactToggle').addEventListener('click', e => {
+      const btn = e.target.closest('.impact-btn');
+      if (!btn) return;
+      document.querySelectorAll('.impact-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterAndRender({ filters: { ...AppState.filters, impact: btn.dataset.impact } });
+    });
+
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-action="reset-filters"]')) {
+        document.querySelectorAll('.chip').forEach(c => {
+          c.classList.toggle('active', c.dataset.region === CONFIG.DEFAULT_REGION);
+        });
+        document.querySelectorAll('.impact-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.impact === CONFIG.DEFAULT_IMPACT);
+        });
+        filterAndRender({ filters: { region: CONFIG.DEFAULT_REGION, impact: CONFIG.DEFAULT_IMPACT } });
+      }
+    });
+  }
+
+  async function init() {
+    ThemeModule.init();
+    initControls();
+    initScrollGuard();
+
+    const { events, isOffline, lastSynced } = await DataModule.bootstrap();
+    AppState.events     = events;
+    AppState.isOffline  = isOffline;
+    AppState.lastSynced = lastSynced;
+
+    render();
+    CountdownModule.start();
+
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('hidden');
+    setTimeout(() => {
+      overlay.remove();
+      requestAnimationFrame(scrollToNextEvent);
+    }, 500);
+
+    setInterval(async () => {
+      try {
+        const fresh = await DataModule.fetchLive();
+        DataModule.saveToCache(fresh);
+        AppState.events = fresh; AppState.isOffline = false; AppState.lastSynced = new Date();
+        render();
+      } catch(e) {
+        AppState.isOffline = true; updateSyncBadge();
+      }
+    }, CONFIG.REFRESH_INTERVAL_MS);
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
