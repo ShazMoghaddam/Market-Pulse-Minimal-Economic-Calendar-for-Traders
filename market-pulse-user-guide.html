@@ -388,12 +388,12 @@
     <ol class="steps">
       <li><strong>Download</strong> <code>market-pulse.html</code> from your Gumroad purchase.</li>
       <li><strong>Double-click</strong> the file — it opens in your default browser.</li>
-      <li>That's it. The calendar loads with built-in sample data immediately.</li>
+      <li>That's it. The calendar opens on a sample week built around today's date, so there is always something to explore.</li>
     </ol>
 
     <div class="callout info">
       <span class="callout-icon">ℹ</span>
-      <span class="callout-body"><strong>No internet needed to open it.</strong> Market Pulse includes fallback event data so it always shows something useful, even without a live API connection.</span>
+      <span class="callout-body"><strong>No internet needed to open it.</strong> Without a live connection, Market Pulse shows a sample week of example events placed around today. A blue <strong>Sample data</strong> badge and a note at the top make it clear they are not real releases.</span>
     </div>
   </section>
 
@@ -411,31 +411,21 @@
       <li>After signing in, navigate to your dashboard and copy your API key.</li>
     </ol>
 
-    <h3>Step 2 — Add your key to Market Pulse</h3>
+    <h3>Step 2 — Add your key in the app</h3>
     <ol class="steps">
-      <li>Right-click <code>market-pulse.html</code> and choose <strong>Open With → Text Editor</strong> (Notepad on Windows, TextEdit on Mac, or any code editor).</li>
-      <li>Press <kbd>Ctrl+F</kbd> (or <kbd>⌘+F</kbd> on Mac) and search for: <code>YOUR_API_KEY_HERE</code></li>
-      <li>Replace that placeholder with your actual key:</li>
-    </ol>
-
-    <pre><code><span class="code-comment">// Before:</span>
-<span class="code-key">const</span> API_KEY = <span class="code-val">'YOUR_API_KEY_HERE'</span>;
-
-<span class="code-comment">// After (example):</span>
-<span class="code-key">const</span> API_KEY = <span class="code-val">'guest:guest'</span>;  <span class="code-comment">// ← your real key goes here</span></code></pre>
-
-    <ol class="steps" start="4">
-      <li>Save the file (<kbd>Ctrl+S</kbd> / <kbd>⌘+S</kbd>) and refresh your browser.</li>
+      <li>Open Market Pulse and click the <strong>gear icon</strong> in the top-right corner (or <strong>Connect live data</strong> in the sample-data note).</li>
+      <li>Paste your key into the <strong>API key</strong> box and click <strong>Save</strong>.</li>
+      <li>The calendar reloads with live events. No file editing needed.</li>
     </ol>
 
     <div class="callout tip">
       <span class="callout-icon">✓</span>
-      <span class="callout-body"><strong>You'll know it's working</strong> when the top-right corner shows a green <strong>LIVE</strong> badge instead of <strong>OFFLINE</strong>.</span>
+      <span class="callout-body"><strong>You'll know it's working</strong> when the badge in the top-right corner turns green and reads <strong>Live</strong>, with the time of the last update.</span>
     </div>
 
-    <div class="callout warn">
-      <span class="callout-icon">⚠</span>
-      <span class="callout-body"><strong>Keep your API key private.</strong> Don't share your edited HTML file publicly (e.g., posting it on a forum). Anyone who sees the file can read your key. If you self-host, use environment variables or a server-side proxy instead.</span>
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <span class="callout-body"><strong>Your key stays with you.</strong> It is saved only in this browser on this device and is sent only to TradingEconomics. It is never written into the file, so you can host or share the file safely. To remove it, open Settings, click <strong>Clear</strong> and then <strong>Save</strong>.</span>
     </div>
   </section>
 
@@ -563,19 +553,19 @@
       </thead>
       <tbody>
         <tr>
-          <td>API key</td>
-          <td><code>YOUR_API_KEY_HERE</code></td>
-          <td>Your key from TradingEconomics</td>
-        </tr>
-        <tr>
           <td>Default impact filter</td>
           <td><code>DEFAULT_IMPACT</code></td>
-          <td><code>'high'</code> / <code>'medium'</code> / <code>'all'</code></td>
+          <td><code>'High'</code> / <code>'High+Medium'</code> / <code>'All'</code></td>
         </tr>
         <tr>
           <td>Default region</td>
           <td><code>DEFAULT_REGION</code></td>
-          <td><code>'US'</code> / <code>'EU'</code> / <code>'all'</code></td>
+          <td><code>'Global High Impact'</code> / <code>'US'</code> / <code>'UK'</code> / <code>'Eurozone'</code> / <code>'Japan'</code> / <code>'Asia'</code> / <code>'All'</code></td>
+        </tr>
+        <tr>
+          <td>Sample events</td>
+          <td><code>sampleWeek</code></td>
+          <td>Edit or add events. <code>"day"</code> is business days from today, <code>"time"</code> is UTC.</td>
         </tr>
         <tr>
           <td>Accent colour</td>
@@ -625,7 +615,7 @@
 
     <div class="callout warn">
       <span class="callout-icon">⚠</span>
-      <span class="callout-body"><strong>If hosting publicly:</strong> Remove your API key from the file before uploading it to any public repository or sharing the URL. Anyone who can view the page source can see the key. Use a server-side proxy if you want both security and live data on a public host.</span>
+      <span class="callout-body"><strong>Hosting publicly is safe.</strong> Your API key is never stored in the file, so visitors to your page won't see it. Each visitor who wants live data adds their own key in Settings.</span>
     </div>
   </section>
 
@@ -638,8 +628,8 @@
 
     <div class="faq">
       <div class="faq-item">
-        <p class="faq-q">The status badge says OFFLINE. What do I do?</p>
-        <p class="faq-a">This means the app couldn't reach the TradingEconomics API. Check that (1) your API key is correctly pasted with no extra spaces, (2) you have an internet connection, and (3) your TradingEconomics account is active. The calendar will still show fallback data while offline.</p>
+        <p class="faq-q">The status badge says Offline. What do I do?</p>
+        <p class="faq-a">This means the app couldn't reach the TradingEconomics API, so it is showing the last events it saved. Check that (1) your API key in Settings has no extra spaces, (2) you have an internet connection, and (3) your TradingEconomics account is active. If the key is rejected when you save it, Settings will tell you straight away.</p>
       </div>
       <div class="faq-item">
         <p class="faq-q">The times look wrong — they don't match my timezone.</p>
@@ -651,7 +641,7 @@
       </div>
       <div class="faq-item">
         <p class="faq-q">Can I share this file with a friend or colleague?</p>
-        <p class="faq-a">Yes, but first remove your API key from the file. Each person using live data should obtain their own free key from TradingEconomics. The MIT License allows free redistribution of the app itself.</p>
+        <p class="faq-a">Yes. Your key is never stored in the file, so there is nothing to remove. Each person using live data adds their own free key from TradingEconomics. The MIT License allows free redistribution of the app itself.</p>
       </div>
       <div class="faq-item">
         <p class="faq-q">Events from yesterday are still showing. How do I refresh?</p>

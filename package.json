@@ -1,0 +1,24 @@
+{
+  "name": "market-pulse",
+  "version": "1.1.0",
+  "private": true,
+  "description": "A distraction-free economic calendar for traders: central bank decisions, CPI, jobs and GDP with live countdowns, in one HTML file.",
+  "author": "Shaz Moghaddam (https://shazmoghaddam.github.io/)",
+  "license": "MIT",
+  "homepage": "https://shazmoghaddam.github.io/market-pulse/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShazMoghaddam/market-pulse.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/smoke.mjs",
+    "build:assets": "node assets/build.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.65.1"
+  }
+}

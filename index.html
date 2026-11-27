@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en-GB" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market Pulse – Live Economic Calendar</title>
-  <meta name="description" content="Market Pulse is a live economic calendar tracking high-impact events across global markets — Fed decisions, CPI releases, GDP data, and more." />
+  <title>Market Pulse: Economic Calendar for Traders</title>
+  <meta name="description" content="Market Pulse is a distraction-free economic calendar: central bank decisions, CPI, jobs and GDP releases with live countdowns, in your time zone. By Shaz Moghaddam." />
+  <meta name="author" content="Shaz Moghaddam" />
+  <meta name="theme-color" content="#0F1115" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Market Pulse – Live Economic Calendar" />
-  <meta property="og:description" content="Track high-impact economic events across global markets in real time. Fed decisions, CPI, GDP, employment data, and more." />
-  <meta property="og:image" content="/og-image.png" />
-  <meta property="og:url" content="https://yoursite.com" />
+  <meta property="og:title" content="Market Pulse: Economic Calendar for Traders" />
+  <meta property="og:description" content="Central bank decisions, CPI, jobs and GDP releases with live countdowns, in your time zone." />
+  <meta property="og:image" content="https://shazmoghaddam.github.io/market-pulse/assets/social-preview.png" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  <meta property="og:url" content="https://shazmoghaddam.github.io/market-pulse/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Market Pulse – Live Economic Calendar" />
-  <meta name="twitter:description" content="Track high-impact economic events across global markets in real time." />
-  <meta name="twitter:image" content="/og-image.png" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="icon_512.svg" />
+  <link rel="apple-touch-icon" href="icon_512.svg" />
   <script>(function(){try{var t=localStorage.getItem('marketpulse_theme');if(!t)t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}}());</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -165,9 +166,6 @@
     @keyframes hero-dot-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,92,92,0.5); opacity: 1; } 50% { box-shadow: 0 0 0 4px rgba(255,92,92,0); opacity: 0.8; } }
     .next-event-datetime { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); opacity: 0.75; }
 
-    .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); background: var(--bg-card); font-family: var(--font-mono); letter-spacing: 0.2px; opacity: 0.7; transition: opacity var(--transition-fast); }
-    .trust-badge:hover { opacity: 1; }
-    .trust-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--online-color); flex-shrink: 0; }
 
     .main { max-width: 1400px; margin: 0 auto; padding: var(--space-3); }
 
@@ -270,12 +268,52 @@
       .events-grid { grid-template-columns: 1fr; padding-left: 0; border-left: none; margin-left: 0; }
       .main { padding: var(--space-2); }
       .sync-label-text { display: none; }
+      .live-clock { white-space: nowrap; }
       .next-event-panel { flex-direction: column; align-items: flex-start; padding: var(--space-2); }
       .next-event-right { text-align: left; min-width: 0; }
-      .trust-badge { display: none; }
     }
     @media (max-width: 480px) {
       .card-values { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .live-clock { display: none; }
+      .header { padding: 0 var(--space-2); }
+    }
+
+    /* ── Sample data, settings and accessibility ─────────────────── */
+    .sync-badge.sample { background: var(--accent-glow); color: var(--accent-primary); border-color: rgba(74,144,226,0.25); cursor: help; }
+    .icon-btn { width: 34px; height: 34px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); }
+    .icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-btn:hover { border-color: var(--border-strong); color: var(--text-primary); background: var(--bg-card-hover); }
+
+    .sample-note { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: var(--space-3); padding: 12px 16px; border-radius: var(--radius); border: 1px dashed rgba(74,144,226,0.35); background: var(--accent-glow); color: var(--text-secondary); font-size: 13px; }
+    .sample-note[hidden] { display: none; }
+    .sample-note strong { color: var(--text-primary); font-weight: 600; }
+    .link-btn { background: none; border: 0; padding: 4px 0; color: var(--accent-primary); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+    .settings-dialog { margin: auto; width: min(460px, calc(100% - 32px)); border: 1px solid var(--border-strong); border-radius: 16px; background: var(--bg-card); color: var(--text-primary); padding: 24px; box-shadow: 0 24px 64px rgba(0,0,0,0.45); }
+    .settings-dialog::backdrop { background: rgba(0,0,0,0.55); backdrop-filter: blur(3px); }
+    .settings-dialog h2 { font-size: 17px; font-weight: 650; margin-bottom: 6px; }
+    .settings-dialog p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 14px; }
+    .settings-dialog a { color: var(--accent-primary); }
+    .settings-dialog label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 6px; }
+    .key-row { display: flex; gap: 8px; }
+    .key-row input { flex: 1; min-width: 0; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg-input); color: var(--text-primary); font: 13px var(--font-mono); }
+    .key-row input:focus { outline: 2px solid var(--accent-primary); outline-offset: 1px; }
+    .settings-msg { min-height: 20px; font-size: 12px; color: var(--impact-medium); margin: 10px 0 0; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+    .btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-secondary); font: 600 13px var(--font-sans); cursor: pointer; }
+    .btn:hover { color: var(--text-primary); }
+    .btn.primary { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
+
+    .footer a { color: inherit; text-underline-offset: 3px; }
+
+    :focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+    .chip:focus-visible, .impact-btn:focus-visible { outline-offset: 1px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+      .event-card:hover { transform: none; }
     }
   </style>
 </head>
@@ -298,19 +336,18 @@
         </div>
       </a>
       <div class="header-right">
-        <div class="trust-badge" id="trustBadge" title="Data source status">
-          <span class="trust-badge-dot" id="trustDot"></span>
-          <span id="trustLabel">Cached</span>
-        </div>
-        <div class="sync-badge online" id="syncBadge">
-          <span class="sync-dot"></span>
-          <span class="sync-label-text" id="syncLabel">Live</span>
+        <div class="sync-badge sample" id="syncBadge" role="status">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <span class="sync-label-text" id="syncLabel">Sample data</span>
         </div>
         <div class="live-clock">
           <span id="liveClock">--:--:--</span>
           <span class="clock-tz" id="clockTz">UTC</span>
         </div>
-        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <button type="button" class="icon-btn" data-action="open-settings" title="Settings: live data" aria-label="Settings: connect live data">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <button type="button" class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Switch between light and dark theme">
           <svg id="themeIconDark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg id="themeIconLight" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
@@ -321,27 +358,31 @@
   <div class="controls-bar">
     <div class="controls-inner">
       <span class="controls-label">Region</span>
-      <div class="region-chips" id="regionChips">
-        <button class="chip" data-region="US">US</button>
-        <button class="chip" data-region="UK">UK</button>
-        <button class="chip" data-region="Eurozone">Eurozone</button>
-        <button class="chip" data-region="Japan">Japan</button>
-        <button class="chip" data-region="Asia">Asia</button>
-        <button class="chip active" data-region="Global High Impact">Global High Impact</button>
-        <button class="chip" data-region="All">All</button>
+      <div class="region-chips" id="regionChips" role="group" aria-label="Region">
+        <button type="button" class="chip" data-region="US" title="United States, Canada and Mexico">Americas</button>
+        <button type="button" class="chip" data-region="UK">UK</button>
+        <button type="button" class="chip" data-region="Eurozone">Eurozone</button>
+        <button type="button" class="chip" data-region="Japan">Japan</button>
+        <button type="button" class="chip" data-region="Asia">Asia</button>
+        <button type="button" class="chip active" data-region="Global High Impact">Global High Impact</button>
+        <button type="button" class="chip" data-region="All">All</button>
       </div>
       <div class="controls-divider"></div>
       <span class="controls-label">Impact</span>
-      <div class="impact-toggle" id="impactToggle">
-        <button class="impact-btn" data-impact="High">High Only</button>
-        <button class="impact-btn active" data-impact="High+Medium">High + Medium</button>
-        <button class="impact-btn" data-impact="All">All</button>
+      <div class="impact-toggle" id="impactToggle" role="group" aria-label="Impact">
+        <button type="button" class="impact-btn" data-impact="High">High Only</button>
+        <button type="button" class="impact-btn active" data-impact="High+Medium">High + Medium</button>
+        <button type="button" class="impact-btn" data-impact="All">All</button>
       </div>
       <div class="event-count" id="eventCount"><span>0</span> events</div>
     </div>
   </div>
 
   <main class="main">
+    <div class="sample-note" id="sampleNote" hidden>
+      <span><strong>You're viewing sample data.</strong> Example events built around today, not real releases.</span>
+      <button type="button" class="link-btn" data-action="open-settings">Connect live data</button>
+    </div>
     <div class="next-event-panel" id="nextEventPanel" style="display:none">
       <div class="next-event-left">
         <div class="next-event-panel-label">Next High Impact Event</div>
@@ -362,72 +403,85 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <p class="footer-copy">&copy; 2026 Market Pulse<span class="footer-version">v1.0</span></p>
-      <p class="footer-meta">Data provided by TradingEconomics. Not financial advice.</p>
+      <p class="footer-copy">Market Pulse by <a href="https://shazmoghaddam.github.io/" target="_blank" rel="noopener noreferrer">Shaz Moghaddam</a> · London<span class="footer-version">v1.1.0</span></p>
+      <p class="footer-meta">Live data from TradingEconomics when connected. Not financial advice. <a href="market-pulse-user-guide.html">Guide</a> · <a href="market-pulse-privacy-policy.html">Privacy</a></p>
     </div>
   </footer>
 
-  <script id="fallbackData" type="application/json">
-  {"events":[
-    {"id":"evt_001","name":"Fed Interest Rate Decision","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-19T18:00:00Z","previous":"5.50%","forecast":"5.50%","actual":null,"status":"Upcoming"},
-    {"id":"evt_002","name":"US CPI (MoM)","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-12T12:30:00Z","previous":"0.3%","forecast":"0.4%","actual":"0.4%","status":"Released"},
-    {"id":"evt_003","name":"US Non-Farm Payrolls","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-04T12:30:00Z","previous":"275K","forecast":"200K","actual":null,"status":"Upcoming"},
-    {"id":"evt_004","name":"US GDP (QoQ)","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-27T12:30:00Z","previous":"3.3%","forecast":"3.2%","actual":null,"status":"Upcoming"},
-    {"id":"evt_005","name":"US Unemployment Rate","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-04T12:30:00Z","previous":"3.7%","forecast":"3.7%","actual":null,"status":"Upcoming"},
-    {"id":"evt_006","name":"US PPI (MoM)","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-13T12:30:00Z","previous":"0.3%","forecast":"0.3%","actual":"0.6%","status":"Released"},
-    {"id":"evt_007","name":"US Retail Sales (MoM)","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-17T12:30:00Z","previous":"-0.8%","forecast":"0.6%","actual":null,"status":"Upcoming"},
-    {"id":"evt_008","name":"US Initial Jobless Claims","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-20T12:30:00Z","previous":"217K","forecast":"215K","actual":null,"status":"Upcoming"},
-    {"id":"evt_009","name":"FOMC Meeting Minutes","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-04-09T18:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
-    {"id":"evt_010","name":"Fed Chair Powell Speech","country":"United States","currency":"USD","region":"US","impact":"High","datetime_utc":"2025-03-29T17:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
-    {"id":"evt_011","name":"BOE Interest Rate Decision","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-03-20T12:00:00Z","previous":"5.25%","forecast":"5.25%","actual":null,"status":"Upcoming"},
-    {"id":"evt_012","name":"UK CPI (YoY)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-03-19T07:00:00Z","previous":"4.0%","forecast":"3.6%","actual":null,"status":"Upcoming"},
-    {"id":"evt_013","name":"UK GDP (MoM)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"High","datetime_utc":"2025-04-11T06:00:00Z","previous":"0.1%","forecast":"0.1%","actual":null,"status":"Upcoming"},
-    {"id":"evt_014","name":"UK Unemployment Rate","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-03-19T07:00:00Z","previous":"3.8%","forecast":"3.8%","actual":null,"status":"Upcoming"},
-    {"id":"evt_015","name":"UK Retail Sales (MoM)","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-03-22T07:00:00Z","previous":"-3.2%","forecast":"1.5%","actual":null,"status":"Upcoming"},
-    {"id":"evt_016","name":"ECB Interest Rate Decision","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-04-17T12:15:00Z","previous":"4.50%","forecast":"4.25%","actual":null,"status":"Upcoming"},
-    {"id":"evt_017","name":"Eurozone CPI Flash (YoY)","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-03-28T10:00:00Z","previous":"2.6%","forecast":"2.5%","actual":null,"status":"Upcoming"},
-    {"id":"evt_018","name":"Eurozone GDP (QoQ)","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-04-30T09:00:00Z","previous":"0.0%","forecast":"0.1%","actual":null,"status":"Upcoming"},
-    {"id":"evt_019","name":"German IFO Business Climate","country":"Germany","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-25T09:00:00Z","previous":"85.5","forecast":"86.0","actual":null,"status":"Upcoming"},
-    {"id":"evt_020","name":"German CPI (MoM)","country":"Germany","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-27T13:00:00Z","previous":"0.2%","forecast":"0.4%","actual":null,"status":"Upcoming"},
-    {"id":"evt_021","name":"ECB President Lagarde Speech","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"High","datetime_utc":"2025-03-22T14:00:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"},
-    {"id":"evt_022","name":"BOJ Interest Rate Decision","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-19T03:00:00Z","previous":"-0.10%","forecast":"0.10%","actual":null,"status":"Upcoming"},
-    {"id":"evt_023","name":"Japan CPI (YoY)","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-22T00:30:00Z","previous":"2.2%","forecast":"2.8%","actual":null,"status":"Upcoming"},
-    {"id":"evt_024","name":"Japan GDP (QoQ)","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-03-11T23:50:00Z","previous":"0.4%","forecast":"0.3%","actual":"0.1%","status":"Released"},
-    {"id":"evt_025","name":"Japan Unemployment Rate","country":"Japan","currency":"JPY","region":"Japan","impact":"Medium","datetime_utc":"2025-03-29T00:30:00Z","previous":"2.4%","forecast":"2.4%","actual":null,"status":"Upcoming"},
-    {"id":"evt_026","name":"Japan Tankan Large Manufacturers","country":"Japan","currency":"JPY","region":"Japan","impact":"High","datetime_utc":"2025-04-01T23:50:00Z","previous":"13","forecast":"12","actual":null,"status":"Upcoming"},
-    {"id":"evt_027","name":"China GDP (YoY)","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-04-16T02:00:00Z","previous":"5.2%","forecast":"4.8%","actual":null,"status":"Upcoming"},
-    {"id":"evt_028","name":"China CPI (YoY)","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-03-09T01:30:00Z","previous":"0.7%","forecast":"0.8%","actual":"0.7%","status":"Released"},
-    {"id":"evt_029","name":"China Trade Balance","country":"China","currency":"CNY","region":"Asia","impact":"High","datetime_utc":"2025-03-07T03:00:00Z","previous":"75.3B","forecast":"103.8B","actual":"125.2B","status":"Released"},
-    {"id":"evt_030","name":"RBA Interest Rate Decision","country":"Australia","currency":"AUD","region":"Asia","impact":"High","datetime_utc":"2025-04-01T03:30:00Z","previous":"4.35%","forecast":"4.10%","actual":null,"status":"Upcoming"},
-    {"id":"evt_031","name":"Australia CPI (QoQ)","country":"Australia","currency":"AUD","region":"Asia","impact":"High","datetime_utc":"2025-04-30T01:30:00Z","previous":"0.6%","forecast":"0.8%","actual":null,"status":"Upcoming"},
-    {"id":"evt_032","name":"Australia Unemployment Rate","country":"Australia","currency":"AUD","region":"Asia","impact":"Medium","datetime_utc":"2025-03-21T00:30:00Z","previous":"4.1%","forecast":"4.0%","actual":null,"status":"Upcoming"},
-    {"id":"evt_033","name":"Canada Interest Rate Decision","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-16T13:45:00Z","previous":"5.00%","forecast":"4.75%","actual":null,"status":"Upcoming"},
-    {"id":"evt_034","name":"Canada CPI (YoY)","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-03-19T12:30:00Z","previous":"2.9%","forecast":"3.0%","actual":null,"status":"Upcoming"},
-    {"id":"evt_035","name":"Canada Employment Change","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-11T12:30:00Z","previous":"37.3K","forecast":"25.0K","actual":null,"status":"Upcoming"},
-    {"id":"evt_036","name":"SNB Interest Rate Decision","country":"Switzerland","currency":"CHF","region":"Eurozone","impact":"High","datetime_utc":"2025-03-21T08:30:00Z","previous":"1.75%","forecast":"1.50%","actual":null,"status":"Upcoming"},
-    {"id":"evt_037","name":"New Zealand GDP (QoQ)","country":"New Zealand","currency":"NZD","region":"Asia","impact":"High","datetime_utc":"2025-03-20T21:45:00Z","previous":"-0.3%","forecast":"0.1%","actual":null,"status":"Upcoming"},
-    {"id":"evt_038","name":"RBNZ Interest Rate Decision","country":"New Zealand","currency":"NZD","region":"Asia","impact":"High","datetime_utc":"2025-04-09T02:00:00Z","previous":"5.50%","forecast":"5.25%","actual":null,"status":"Upcoming"},
-    {"id":"evt_039","name":"India GDP (YoY)","country":"India","currency":"INR","region":"Asia","impact":"High","datetime_utc":"2025-02-28T12:00:00Z","previous":"7.6%","forecast":"6.9%","actual":"8.4%","status":"Released"},
-    {"id":"evt_040","name":"RBI Interest Rate Decision","country":"India","currency":"INR","region":"Asia","impact":"High","datetime_utc":"2025-04-05T05:00:00Z","previous":"6.50%","forecast":"6.25%","actual":null,"status":"Upcoming"},
-    {"id":"evt_041","name":"Eurozone Unemployment Rate","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-04-01T09:00:00Z","previous":"6.4%","forecast":"6.4%","actual":null,"status":"Upcoming"},
-    {"id":"evt_042","name":"US ISM Manufacturing PMI","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-04-01T14:00:00Z","previous":"47.8","forecast":"48.3","actual":null,"status":"Upcoming"},
-    {"id":"evt_043","name":"US ISM Services PMI","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-04-03T14:00:00Z","previous":"52.6","forecast":"53.0","actual":null,"status":"Upcoming"},
-    {"id":"evt_044","name":"UK Manufacturing PMI","country":"United Kingdom","currency":"GBP","region":"UK","impact":"Medium","datetime_utc":"2025-04-01T08:30:00Z","previous":"47.5","forecast":"47.8","actual":null,"status":"Upcoming"},
-    {"id":"evt_045","name":"Eurozone Manufacturing PMI","country":"Eurozone","currency":"EUR","region":"Eurozone","impact":"Medium","datetime_utc":"2025-04-01T08:00:00Z","previous":"46.5","forecast":"47.0","actual":null,"status":"Upcoming"},
-    {"id":"evt_046","name":"Japan Industrial Production (MoM)","country":"Japan","currency":"JPY","region":"Japan","impact":"Medium","datetime_utc":"2025-03-29T00:50:00Z","previous":"1.2%","forecast":"-0.1%","actual":null,"status":"Upcoming"},
-    {"id":"evt_047","name":"US CB Consumer Confidence","country":"United States","currency":"USD","region":"US","impact":"Medium","datetime_utc":"2025-03-26T14:00:00Z","previous":"106.7","forecast":"106.5","actual":null,"status":"Upcoming"},
-    {"id":"evt_048","name":"Switzerland CPI (MoM)","country":"Switzerland","currency":"CHF","region":"Eurozone","impact":"Medium","datetime_utc":"2025-03-04T07:30:00Z","previous":"0.2%","forecast":"0.4%","actual":"0.6%","status":"Released"},
-    {"id":"evt_049","name":"South Korea GDP (QoQ)","country":"South Korea","currency":"KRW","region":"Asia","impact":"High","datetime_utc":"2025-04-24T01:00:00Z","previous":"0.6%","forecast":"0.5%","actual":null,"status":"Upcoming"},
-    {"id":"evt_050","name":"BOC Governor Macklem Speech","country":"Canada","currency":"CAD","region":"US","impact":"High","datetime_utc":"2025-04-08T15:30:00Z","previous":"—","forecast":"—","actual":null,"status":"Upcoming"}
-  ]}
+  <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+    <form id="settingsForm" method="dialog">
+      <h2 id="settingsTitle">Connect live data</h2>
+      <p>Market Pulse can load real events from the <a href="https://tradingeconomics.com/analytics/api.aspx" target="_blank" rel="noopener noreferrer">TradingEconomics API</a>. Paste your API key below. It is saved only in this browser and sent only to TradingEconomics.</p>
+      <label for="apiKeyInput">API key</label>
+      <div class="key-row">
+        <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="key:secret" />
+        <button type="button" class="btn" id="apiKeyClear">Clear</button>
+      </div>
+      <p class="settings-msg" id="settingsMsg" role="status"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="settingsCancel">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!--
+    SAMPLE WEEK
+    Shown when no API key is set. Each event is placed on a business day relative
+    to today ("day": -2 = two business days ago, 0 = today, 5 = five business days
+    ahead) at a fixed UTC time, so the demo is always current and never goes stale.
+    Figures are examples, not real releases.
+  -->
+  <script id="sampleWeek" type="application/json">
+  [
+    {"day":-2,"time":"00:30","name":"Employment Change","country":"Australia","currency":"AUD","impact":"High","previous":"15.2K","forecast":"20.0K","actual":"24.1K"},
+    {"day":-2,"time":"07:00","name":"GDP (MoM)","country":"United Kingdom","currency":"GBP","impact":"High","previous":"0.1%","forecast":"0.2%","actual":"0.3%"},
+    {"day":-2,"time":"13:30","name":"Initial Jobless Claims","country":"United States","currency":"USD","impact":"Medium","previous":"221K","forecast":"225K","actual":"219K"},
+    {"day":-2,"time":"15:00","name":"Existing Home Sales","country":"United States","currency":"USD","impact":"Low","previous":"4.06M","forecast":"4.10M","actual":"4.02M"},
+    {"day":-1,"time":"09:00","name":"Ifo Business Climate","country":"Germany","currency":"EUR","impact":"Medium","previous":"86.4","forecast":"86.8","actual":"87.1"},
+    {"day":-1,"time":"13:30","name":"Retail Sales (MoM)","country":"United States","currency":"USD","impact":"High","previous":"0.4%","forecast":"0.3%","actual":"0.6%"},
+    {"day":-1,"time":"13:30","name":"CPI (YoY)","country":"Canada","currency":"CAD","impact":"High","previous":"2.1%","forecast":"2.2%","actual":"2.0%"},
+    {"day":-1,"time":"13:30","name":"Building Permits","country":"United States","currency":"USD","impact":"Low","previous":"1.31M","forecast":"1.34M","actual":"1.36M"},
+    {"day":0,"time":"07:00","name":"CPI (YoY)","country":"United Kingdom","currency":"GBP","impact":"High","previous":"2.6%","forecast":"2.5%","actual":"2.4%"},
+    {"day":0,"time":"10:00","name":"ZEW Economic Sentiment","country":"Germany","currency":"EUR","impact":"Medium","previous":"13.1","forecast":"14.0","actual":"15.2"},
+    {"day":0,"time":"13:30","name":"Core PCE Price Index (MoM)","country":"United States","currency":"USD","impact":"High","previous":"0.2%","forecast":"0.2%","actual":"0.3%"},
+    {"day":0,"time":"15:00","name":"ISM Services PMI","country":"United States","currency":"USD","impact":"High","previous":"52.1","forecast":"52.4","actual":"51.8"},
+    {"day":0,"time":"19:00","name":"FOMC Meeting Minutes","country":"United States","currency":"USD","impact":"High","previous":"—","forecast":"—","actual":"—"},
+    {"day":1,"time":"03:30","name":"RBA Interest Rate Decision","country":"Australia","currency":"AUD","impact":"High","previous":"3.60%","forecast":"3.60%","actual":"3.60%"},
+    {"day":1,"time":"10:00","name":"CPI Flash Estimate (YoY)","country":"Eurozone","currency":"EUR","impact":"High","previous":"2.0%","forecast":"2.1%","actual":"2.1%"},
+    {"day":1,"time":"13:15","name":"ADP Employment Change","country":"United States","currency":"USD","impact":"Medium","previous":"118K","forecast":"125K","actual":"131K"},
+    {"day":1,"time":"15:30","name":"Crude Oil Inventories","country":"United States","currency":"USD","impact":"Low","previous":"-1.9M","forecast":"-1.2M","actual":"0.8M"},
+    {"day":2,"time":"03:00","name":"BoJ Interest Rate Decision","country":"Japan","currency":"JPY","impact":"High","previous":"0.50%","forecast":"0.50%","actual":"0.50%"},
+    {"day":2,"time":"12:00","name":"BoE Interest Rate Decision","country":"United Kingdom","currency":"GBP","impact":"High","previous":"4.00%","forecast":"3.75%","actual":"3.75%"},
+    {"day":2,"time":"13:15","name":"ECB Interest Rate Decision","country":"Eurozone","currency":"EUR","impact":"High","previous":"2.00%","forecast":"2.00%","actual":"2.00%"},
+    {"day":2,"time":"13:30","name":"Initial Jobless Claims","country":"United States","currency":"USD","impact":"Medium","previous":"219K","forecast":"222K","actual":"227K"},
+    {"day":3,"time":"13:30","name":"Nonfarm Payrolls","country":"United States","currency":"USD","impact":"High","previous":"142K","forecast":"150K","actual":"165K"},
+    {"day":3,"time":"13:30","name":"Unemployment Rate","country":"United States","currency":"USD","impact":"High","previous":"4.2%","forecast":"4.2%","actual":"4.1%"},
+    {"day":3,"time":"13:30","name":"Employment Change","country":"Canada","currency":"CAD","impact":"High","previous":"22.0K","forecast":"18.5K","actual":"14.2K"},
+    {"day":3,"time":"15:00","name":"Michigan Consumer Sentiment","country":"United States","currency":"USD","impact":"Medium","previous":"57.4","forecast":"58.0","actual":"58.9"},
+    {"day":4,"time":"01:30","name":"CPI (YoY)","country":"China","currency":"CNY","impact":"High","previous":"0.3%","forecast":"0.4%","actual":"0.2%"},
+    {"day":4,"time":"03:00","name":"Trade Balance","country":"China","currency":"CNY","impact":"Medium","previous":"95.2B","forecast":"98.0B","actual":"101.4B"},
+    {"day":4,"time":"07:00","name":"Industrial Production (MoM)","country":"Germany","currency":"EUR","impact":"Low","previous":"-0.4%","forecast":"0.3%","actual":"0.5%"},
+    {"day":4,"time":"13:30","name":"CPI (YoY)","country":"United States","currency":"USD","impact":"High","previous":"2.9%","forecast":"2.8%","actual":"2.8%"},
+    {"day":5,"time":"07:00","name":"Claimant Count Change","country":"United Kingdom","currency":"GBP","impact":"Medium","previous":"17.4K","forecast":"20.0K","actual":"12.1K"},
+    {"day":5,"time":"08:30","name":"SNB Interest Rate Decision","country":"Switzerland","currency":"CHF","impact":"Medium","previous":"0.00%","forecast":"0.00%","actual":"0.00%"},
+    {"day":5,"time":"19:00","name":"Fed Interest Rate Decision","country":"United States","currency":"USD","impact":"High","previous":"3.75%","forecast":"3.75%","actual":"3.75%"},
+    {"day":5,"time":"19:30","name":"FOMC Press Conference","country":"United States","currency":"USD","impact":"High","previous":"—","forecast":"—","actual":"—"},
+    {"day":5,"time":"21:45","name":"GDP (QoQ)","country":"New Zealand","currency":"NZD","impact":"Medium","previous":"0.5%","forecast":"0.6%","actual":"0.4%"}
+  ]
   </script>
 
   <script>
   'use strict';
 
   const CONFIG = {
-    API_KEY:             'YOUR_API_KEY_HERE',
+    // Your TradingEconomics key is entered in the app (Settings) and saved only in your
+    // own browser. Self-hosting for yourself? You can also put it here, but never publish
+    // a page with a real key in it: anyone can read it.
+    API_KEY:             '',
     API_BASE:            'https://api.tradingeconomics.com/calendar',
+    CACHE_KEY_API:       'marketpulse_api_key',
+    CACHE_KEY_FILTERS:   'marketpulse_filters',
     CACHE_KEY_EVENTS:    'marketpulse_events',
     CACHE_KEY_SYNCED:    'marketpulse_synced',
     CACHE_TTL_MS:        30 * 60 * 1000,
@@ -440,7 +494,7 @@
 
   const AppState = {
     events: [], filtered: [],
-    lastSynced: null, isOffline: false, theme: 'dark',
+    lastSynced: null, isOffline: false, source: 'sample', theme: 'dark',
     filters: { region: CONFIG.DEFAULT_REGION, impact: CONFIG.DEFAULT_IMPACT },
   };
 
@@ -449,10 +503,52 @@
     if (rerender) render();
   }
 
+  /* Escape anything from outside the page (the API) before it goes into HTML */
+  function esc(v) {
+    return String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+  }
+
+  function getApiKey() {
+    try { return localStorage.getItem(CONFIG.CACHE_KEY_API) || CONFIG.API_KEY || ''; }
+    catch(e) { return CONFIG.API_KEY || ''; }
+  }
+
   const DataModule = (() => {
-    function loadFallback() {
-      try { return JSON.parse(document.getElementById('fallbackData').textContent).events; }
-      catch(e) { return []; }
+    /*
+     * Build the sample week around today, so the demo is never out of date.
+     * "day" counts business days from today (weekends skipped). Events that have
+     * already happened get their example "actual"; future ones are pending.
+     */
+    function businessDay(offset, now) {
+      const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const isWeekend = x => x.getUTCDay() === 0 || x.getUTCDay() === 6;
+      while (isWeekend(d)) d.setUTCDate(d.getUTCDate() + 1);   // a weekend "today" starts on Monday
+      const step = offset < 0 ? -1 : 1;
+      for (let left = Math.abs(offset); left > 0; ) {
+        d.setUTCDate(d.getUTCDate() + step);
+        if (!isWeekend(d)) left--;
+      }
+      return d;
+    }
+
+    function loadFallback(now = new Date()) {
+      let template = [];
+      try { template = JSON.parse(document.getElementById('sampleWeek').textContent); } catch(e) {}
+      return template.map((t, i) => {
+        const day = businessDay(t.day, now);
+        const [hh, mm] = t.time.split(':').map(Number);
+        day.setUTCHours(hh, mm, 0, 0);
+        const happened = now.getTime() > day.getTime() + 5 * 60 * 1000;
+        return {
+          id: `sample_${i}`,
+          name: t.name, country: t.country, currency: t.currency,
+          region: resolveRegion(t.country, t.currency),
+          impact: t.impact,
+          datetime_utc: day.toISOString(),
+          previous: t.previous, forecast: t.forecast,
+          actual: happened ? t.actual : null,
+        };
+      });
     }
 
     function saveToCache(events) {
@@ -499,11 +595,13 @@
     }
 
     async function fetchLive() {
-      if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE') throw new Error('No API key');
-      const url = `${CONFIG.API_BASE}?c=${CONFIG.API_KEY}&f=json`;
+      const key = getApiKey();
+      if (!key) throw new Error('No API key');
+      const url = `${CONFIG.API_BASE}?c=${encodeURIComponent(key)}&f=json`;
       const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const raw = await res.json();
+      if (!Array.isArray(raw)) throw new Error('Unexpected response');
       return raw.map((item, i) => ({
         id:           `te_${item.CalendarId || i}`,
         name:         item.Event    || 'Unknown Event',
@@ -520,22 +618,27 @@
     }
 
     async function bootstrap() {
-      try {
-        const events = await fetchLive();
-        saveToCache(events);
-        return { events, isOffline: false, lastSynced: new Date() };
-      } catch(e) {}
+      if (getApiKey()) {
+        try {
+          const events = await fetchLive();
+          saveToCache(events);
+          return { events, isOffline: false, source: 'live', lastSynced: new Date() };
+        } catch(e) {}
 
-      const cached = loadFromCache();
-      if (cached) {
-        const synced = new Date(parseInt(localStorage.getItem(CONFIG.CACHE_KEY_SYNCED), 10));
-        return { events: cached, isOffline: true, lastSynced: synced };
+        const cached = loadFromCache();
+        if (cached) {
+          const synced = new Date(parseInt(localStorage.getItem(CONFIG.CACHE_KEY_SYNCED), 10));
+          return { events: cached, isOffline: true, source: 'cache', lastSynced: synced };
+        }
       }
-
-      return { events: loadFallback(), isOffline: true, lastSynced: null };
+      return { events: loadFallback(), isOffline: false, source: 'sample', lastSynced: null };
     }
 
-    return { bootstrap, fetchLive, saveToCache, computeStatus };
+    function clearCache() {
+      try { localStorage.removeItem(CONFIG.CACHE_KEY_EVENTS); localStorage.removeItem(CONFIG.CACHE_KEY_SYNCED); } catch(e) {}
+    }
+
+    return { bootstrap, fetchLive, saveToCache, clearCache, computeStatus, loadFallback };
   })();
 
   const FiltersModule = (() => {
@@ -609,9 +712,7 @@
 
       const nextCountdownEl = document.getElementById('nextEventCountdown');
       if (nextCountdownEl) {
-        const upcoming = AppState.events
-          .filter(e => e.impact === 'High' && e.status !== 'Released' && new Date(e.datetime_utc).getTime() > now)
-          .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
+        const upcoming = nextHighImpact(now);
         if (upcoming.length) {
           const nextEvt    = upcoming[0];
           const heroStatus = DataModule.computeStatus(nextEvt.datetime_utc, nextEvt.actual);
@@ -656,12 +757,18 @@
       };
     }
 
-    function actualClass(actual, forecast, previous) {
+    /*
+     * Green = better than expected for the currency, red = worse.
+     * Usually higher is better, but for jobless figures a higher number is bad news.
+     */
+    const LOWER_IS_BETTER = /unemployment|jobless|claimant|continuing claims/i;
+    function actualClass(actual, forecast, previous, name = '') {
       const a = parseFloat(actual), f = parseFloat(forecast), p = parseFloat(previous);
       if (isNaN(a)) return 'actual';
       const base = isNaN(f) ? p : f;
-      if (isNaN(base)) return 'actual';
-      return a >= base ? 'better' : 'worse';
+      if (isNaN(base) || a === base) return 'actual';
+      const higher = a > base;
+      return (LOWER_IS_BETTER.test(name) ? !higher : higher) ? 'better' : 'worse';
     }
 
     function buildCard(evt) {
@@ -678,19 +785,20 @@
       else                            { timerText = CountdownModule.format(diff) || 'Soon'; }
 
       const actualHtml = evt.actual
-        ? `<span class="value-data actual ${actualClass(evt.actual, evt.forecast, evt.previous)}">${evt.actual}</span>`
+        ? `<span class="value-data actual ${actualClass(evt.actual, evt.forecast, evt.previous, evt.name)}" title="Compared with the forecast (or previous)">${esc(evt.actual)}</span>`
         : `<span class="value-data pending">Pending</span>`;
+      const impact = ['High','Medium','Low'].includes(evt.impact) ? evt.impact : 'Low';
 
       return `
-      <div class="event-card${status==='Live'?' is-live':''}${status==='Released'?' is-released':''}" data-impact="${evt.impact}" data-region="${evt.region}" data-event-id="${evt.id}">
+      <article class="event-card${status==='Live'?' is-live':''}${status==='Released'?' is-released':''}" data-impact="${impact}" data-region="${esc(evt.region)}" data-event-id="${esc(evt.id)}">
         <div class="card-header">
           <div class="card-title-group">
-            <div class="card-event-name" title="${evt.name}">${evt.name}</div>
+            <h3 class="card-event-name" title="${esc(evt.name)}">${esc(evt.name)}</h3>
             <div class="card-meta">
-              <span class="flag">${flag}</span>
-              <span class="country-name">${evt.country}</span>
-              <span class="currency-tag">${evt.currency}</span>
-              <span class="impact-badge ${evt.impact}">${evt.impact}</span>
+              <span class="flag" aria-hidden="true">${flag}</span>
+              <span class="country-name">${esc(evt.country)}</span>
+              <span class="currency-tag">${esc(evt.currency)}</span>
+              <span class="impact-badge ${impact}">${impact}</span>
             </div>
             <div class="card-datetime">${date} · ${time}</div>
           </div>
@@ -700,11 +808,11 @@
           </div>
         </div>
         <div class="card-values">
-          <div class="value-cell"><span class="value-label">Previous</span><span class="value-data">${evt.previous || '—'}</span></div>
-          <div class="value-cell"><span class="value-label">Forecast</span><span class="value-data">${evt.forecast || '—'}</span></div>
+          <div class="value-cell"><span class="value-label">Previous</span><span class="value-data">${esc(evt.previous || '—')}</span></div>
+          <div class="value-cell"><span class="value-label">Forecast</span><span class="value-data">${esc(evt.forecast || '—')}</span></div>
           <div class="value-cell"><span class="value-label">Actual</span>${actualHtml}</div>
         </div>
-      </div>`;
+      </article>`;
     }
 
     function groupByDate(events) {
@@ -785,29 +893,35 @@
     if (tz) tz.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
 
+  /* One badge that says where the events come from: sample, live or cached */
   function updateSyncBadge() {
-    const badge      = document.getElementById('syncBadge');
-    const label      = document.getElementById('syncLabel');
-    const trustDot   = document.getElementById('trustDot');
-    const trustLabel = document.getElementById('trustLabel');
+    const badge = document.getElementById('syncBadge');
+    const label = document.getElementById('syncLabel');
+    const note  = document.getElementById('sampleNote');
     if (!badge || !label) return;
-    if (AppState.isOffline) {
+    const time = d => d ? d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : '--:--';
+    if (AppState.source === 'sample') {
+      badge.className = 'sync-badge sample';
+      label.textContent = 'Sample data';
+      badge.title = 'Example events built around today. Add a TradingEconomics API key in Settings for live data.';
+    } else if (AppState.isOffline) {
       badge.className = 'sync-badge offline';
-      const t = AppState.lastSynced
-        ? `Last synced: ${AppState.lastSynced.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`
-        : 'No cache';
-      label.textContent = `Offline – ${t}`;
-      if (trustDot)   trustDot.style.background = 'var(--impact-high)';
-      if (trustLabel) trustLabel.textContent = AppState.lastSynced ? 'Cached Mode' : 'Offline';
+      label.textContent = `Offline · cached ${time(AppState.lastSynced)}`;
+      badge.title = 'Could not reach TradingEconomics. Showing the last events saved in this browser.';
     } else {
       badge.className = 'sync-badge online';
-      const t = AppState.lastSynced
-        ? AppState.lastSynced.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
-        : '--:--';
-      label.textContent = `Live · ${t}`;
-      if (trustDot)   trustDot.style.background = 'var(--online-color)';
-      if (trustLabel) trustLabel.textContent = 'API Connected';
+      label.textContent = `Live · ${time(AppState.lastSynced)}`;
+      badge.title = 'Connected to TradingEconomics.';
     }
+    if (note) note.hidden = AppState.source !== 'sample';
+  }
+
+  /* The next high-impact event that hasn't happened yet (status worked out now, not stored) */
+  function nextHighImpact(now = Date.now()) {
+    return AppState.events
+      .filter(e => e.impact === 'High' && new Date(e.datetime_utc).getTime() > now
+                && DataModule.computeStatus(e.datetime_utc, e.actual) !== 'Released')
+      .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
   }
 
   function render() {
@@ -822,9 +936,7 @@
 
   function updateNextEventPanel() {
     const now = Date.now();
-    const upcoming = AppState.events
-      .filter(e => e.impact === 'High' && e.status !== 'Released' && new Date(e.datetime_utc).getTime() > now)
-      .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc));
+    const upcoming = nextHighImpact(now);
 
     const panel = document.getElementById('nextEventPanel');
     if (!panel) return;
@@ -882,45 +994,105 @@
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+  /* Show which filter buttons are on, for eyes and screen readers alike */
+  function syncFilterButtons() {
+    document.querySelectorAll('.chip').forEach(c => {
+      const on = c.dataset.region === AppState.filters.region;
+      c.classList.toggle('active', on);
+      c.setAttribute('aria-pressed', String(on));
+    });
+    document.querySelectorAll('.impact-btn').forEach(b => {
+      const on = b.dataset.impact === AppState.filters.impact;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+  }
+
+  function setFilters(filters) {
+    AppState.filters = filters;
+    syncFilterButtons();
+    try { localStorage.setItem(CONFIG.CACHE_KEY_FILTERS, JSON.stringify(filters)); } catch(e) {}
+    filterAndRender({ filters });
+  }
+
   function initControls() {
+    // Restore the visitor's last filters
+    try {
+      const saved = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY_FILTERS));
+      if (saved && saved.region && saved.impact) AppState.filters = saved;
+    } catch(e) {}
+    syncFilterButtons();
+
     document.getElementById('regionChips').addEventListener('click', e => {
       const btn = e.target.closest('.chip');
-      if (!btn) return;
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      filterAndRender({ filters: { ...AppState.filters, region: btn.dataset.region } });
+      if (btn) setFilters({ ...AppState.filters, region: btn.dataset.region });
     });
 
     document.getElementById('impactToggle').addEventListener('click', e => {
       const btn = e.target.closest('.impact-btn');
-      if (!btn) return;
-      document.querySelectorAll('.impact-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      filterAndRender({ filters: { ...AppState.filters, impact: btn.dataset.impact } });
+      if (btn) setFilters({ ...AppState.filters, impact: btn.dataset.impact });
     });
 
     document.addEventListener('click', e => {
       if (e.target.closest('[data-action="reset-filters"]')) {
-        document.querySelectorAll('.chip').forEach(c => {
-          c.classList.toggle('active', c.dataset.region === CONFIG.DEFAULT_REGION);
-        });
-        document.querySelectorAll('.impact-btn').forEach(b => {
-          b.classList.toggle('active', b.dataset.impact === CONFIG.DEFAULT_IMPACT);
-        });
-        filterAndRender({ filters: { region: CONFIG.DEFAULT_REGION, impact: CONFIG.DEFAULT_IMPACT } });
+        setFilters({ region: CONFIG.DEFAULT_REGION, impact: CONFIG.DEFAULT_IMPACT });
       }
+      if (e.target.closest('[data-action="open-settings"]')) SettingsModule.open();
     });
+  }
+
+  /* Settings: the API key lives only in this browser's storage */
+  const SettingsModule = (() => {
+    const dlg   = () => document.getElementById('settingsDialog');
+    const input = () => document.getElementById('apiKeyInput');
+    const msg   = () => document.getElementById('settingsMsg');
+
+    function open() {
+      input().value = getApiKey();
+      msg().textContent = '';
+      dlg().showModal();
+      input().focus();
+    }
+
+    async function save(e) {
+      e.preventDefault();
+      const key = input().value.trim();
+      try {
+        if (key) localStorage.setItem(CONFIG.CACHE_KEY_API, key);
+        else localStorage.removeItem(CONFIG.CACHE_KEY_API);
+      } catch(err) {}
+      DataModule.clearCache();
+      msg().textContent = key ? 'Connecting…' : 'Key removed. Showing sample data.';
+      await reload();
+      if (key && AppState.source !== 'live') {
+        msg().textContent = 'Could not load live data with that key. Check it and try again.';
+        return;
+      }
+      dlg().close();
+    }
+
+    function init() {
+      document.getElementById('settingsForm').addEventListener('submit', save);
+      document.getElementById('settingsCancel').addEventListener('click', () => dlg().close());
+      document.getElementById('apiKeyClear').addEventListener('click', () => { input().value = ''; input().focus(); });
+    }
+    return { open, init };
+  })();
+
+  async function reload() {
+    const { events, isOffline, source, lastSynced } = await DataModule.bootstrap();
+    Object.assign(AppState, { events, isOffline, source, lastSynced });
+    render();
   }
 
   async function init() {
     ThemeModule.init();
     initControls();
+    SettingsModule.init();
     initScrollGuard();
 
-    const { events, isOffline, lastSynced } = await DataModule.bootstrap();
-    AppState.events     = events;
-    AppState.isOffline  = isOffline;
-    AppState.lastSynced = lastSynced;
+    const { events, isOffline, source, lastSynced } = await DataModule.bootstrap();
+    Object.assign(AppState, { events, isOffline, source, lastSynced });
 
     render();
     CountdownModule.start();
@@ -933,10 +1105,16 @@
     }, 500);
 
     setInterval(async () => {
+      if (AppState.source === 'sample') {
+        // Rebuild the sample week so events that have just happened show their "actual"
+        AppState.events = DataModule.loadFallback();
+        render();
+        return;
+      }
       try {
         const fresh = await DataModule.fetchLive();
         DataModule.saveToCache(fresh);
-        AppState.events = fresh; AppState.isOffline = false; AppState.lastSynced = new Date();
+        Object.assign(AppState, { events: fresh, isOffline: false, source: 'live', lastSynced: new Date() });
         render();
       } catch(e) {
         AppState.isOffline = true; updateSyncBadge();
